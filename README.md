@@ -7,17 +7,17 @@
 [![Validation](https://github.com/py-mine/mcstatus/actions/workflows/validation.yml/badge.svg)](https://github.com/py-mine/mcstatus/actions/workflows/validation.yml)
 [![Tox test](https://github.com/py-mine/mcstatus/actions/workflows/tox-test.yml/badge.svg)](https://github.com/py-mine/mcstatus/actions/workflows/tox-test.yml)
 
-Mcstatus provides an API and command line script to fetch publicly available data from Minecraft servers. Specifically, mcstatus retrieves data by using these protocols: [Server List Ping](https://wiki.vg/Server_List_Ping) and [Query](https://wiki.vg/Query). Because of mcstatus, you do not need to fully understand those protocols and can instead skip straight to retrieving minecraft server data quickly in your own programs.
+Mcstatus 提供了一个 API 和命令行脚本来获取 Minecraft 服务器的公开数据。具体来说，mcstatus 通过使用这些协议来检索数据：[Server List Ping](https://wiki.vg/Server_List_Ping) 和 [Query](https://wiki.vg/Query)。因为有了 mcstatus，你不需要完全理解这些协议，而可以直接在自己的程序中快速检索 Minecraft 服务器数据。
 
-## Installation
+## 安装
 
-Mcstatus is available on [PyPI](https://pypi.org/project/mcstatus/), and can be installed trivially with:
+Mcstatus 可在 [PyPI](https://pypi.org/project/mcstatus/) 上获得，可以简单地通过以下方式安装：
 
 ```bash
 python3 -m pip install mcstatus
 ```
 
-## Usage
+## 使用方法
 
 ### Python API
 
@@ -26,26 +26,26 @@ python3 -m pip install mcstatus
 ```python
 from mcstatus import JavaServer
 
-# You can pass the same address you'd enter into the address field in minecraft into the 'lookup' function
-# If you know the host and port, you may skip this and use JavaServer("example.org", 1234)
+# 你可以将你在 Minecraft 的地址字段中输入的相同地址传递给 'lookup' 函数
+# 如果你知道主机和端口，可以跳过此步骤，直接使用 JavaServer("example.org", 1234)
 server = JavaServer.lookup("example.org:1234")
 
-# 'status' is supported by all Minecraft servers that are version 1.7 or higher.
-# Don't expect the player list to always be complete, because many servers run
-# plugins that hide this information or limit the number of players returned or even
-# alter this list to contain fake players for purposes of having a custom message here.
+# 'status' 支持所有版本为 1.7 或更高版本的 Minecraft 服务器。
+# 不要期望玩家列表总是完整的，因为许多服务器运行插件来隐藏此信息，限制返回的玩家数量，
+# 或者甚至为了自定义消息的目的更改此列表以包含虚假玩家。
 status = server.status()
-print(f"The server has {status.players.online} player(s) online and replied in {status.latency} ms")
+print(f"服务器有 {status.players.online} 个玩家在线，响应时间为 {status.latency} 毫秒")
 
-# 'ping' is supported by all Minecraft servers that are version 1.7 or higher.
-# It is included in a 'status' call, but is also exposed separate if you do not require the additional info.
+# 'ping' 支持所有版本为 1.7 或更高版本的 Minecraft 服务器。
+# 它包含在 'status' 调用中，但如果你不需要额外的信息，它也可以单独使用。
 latency = server.ping()
-print(f"The server replied in {latency} ms")
+print(f"服务器响应时间为 {latency} 毫秒")
 
-# 'query' has to be enabled in a server's server.properties file!
-# It may give more information than a ping, such as a full player list or mod information.
+# 'query' 必须在服务器的 server.properties 文件中启用！
+# 它可能提供比 ping 更多的信息，例如完整的玩家列表或模组信息。
 query = server.query()
-print(f"The server has the following players online: {', '.join(query.players.names)}")
+print(f"服务器当前在线的玩家有：{', '.join(query.players.names)}")
+
 ```
 
 #### Bedrock Edition
@@ -53,25 +53,26 @@ print(f"The server has the following players online: {', '.join(query.players.na
 ```python
 from mcstatus import BedrockServer
 
-# You can pass the same address you'd enter into the address field in minecraft into the 'lookup' function
-# If you know the host and port, you may skip this and use BedrockServer("example.org", 19132)
+# 你可以将你在 Minecraft 的地址字段中输入的相同地址传递给 'lookup' 函数
+# 如果你知道主机和端口，可以跳过此步骤，直接使用 BedrockServer("example.org", 19132)
 server = BedrockServer.lookup("example.org:19132")
 
-# 'status' is the only feature that is supported by Bedrock at this time.
-# In this case status includes players.online, latency, motd, map, gamemode, and players.max. (ex: status.gamemode)
+# 'status' 是目前 Bedrock 唯一支持的功能。
+# 在这种情况下，status 包含 players.online、latency、motd、map、gamemode 和 players.max。（例如：status.gamemode）
 status = server.status()
-print(f"The server has {status.players.online} players online and replied in {status.latency} ms")
+print(f"服务器有 {status.players.online} 个玩家在线，响应时间为 {status.latency} 毫秒")
+
 ```
 
 See the [documentation](https://mcstatus.readthedocs.io) to find what you can do with our library!
 
 ### Command Line Interface
 
-The mcstatus library includes a simple CLI. Once installed, it can be used through:
+mcstatus 库包括一个简单的 CLI。安装后，可以通过以下方式使用：
 ```bash
 python3 -m mcstatus --help
 ```
 
 ## License
 
-Mcstatus is licensed under the Apache 2.0 license. See LICENSE for full text.
+Mcstatus 根据 Apache 2.0 许可证授权。详见 LICENSE 完整文本。
